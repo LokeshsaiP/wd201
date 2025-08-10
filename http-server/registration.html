@@ -8,28 +8,46 @@
   </head>
   <body>
     <div class="container">
-      <form id="registrationForm" class="form-box">
+      <form
+        id="registrationForm"
+        class="form-box"
+        action="/register"
+        method="post"
+      >
         <h2>Registration Form</h2>
 
         <label for="name">Name</label>
-        <input id="name" type="text" placeholder="Enter full name" required />
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Enter full name"
+          required
+        />
 
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="Enter email" required />
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Enter email"
+          required
+        />
 
         <label for="password">Password</label>
         <input
           id="password"
+          name="password"
           type="password"
           placeholder="Enter password"
           required
         />
 
         <label for="dob">Date of Birth</label>
-        <input id="dob" type="date" required />
+        <input id="dob" name="dob" type="date" required />
 
         <div class="checkbox-row">
-          <input type="checkbox" id="acceptTerms" required />
+          <input type="checkbox" id="acceptTerms" name="acceptTerms" required />
           <label for="acceptTerms">Accept Terms & Conditions</label>
         </div>
 

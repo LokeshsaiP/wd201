@@ -1,6 +1,10 @@
 import http from "http";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let homeContent = "";
 let projectContent = "";
@@ -9,15 +13,15 @@ let registrationContent = "";
 const args = process.argv;
 const port = parseInt(args[2] || "3000");
 
-fs.readFile("home.html", (err, home) => {
+fs.readFile(path.join(__dirname, "home.html"), (err, home) => {
   if (err) throw err;
   homeContent = home;
 });
-fs.readFile("project.html", (err, project) => {
+fs.readFile(path.join(__dirname, "project.html"), (err, project) => {
   if (err) throw err;
   projectContent = project;
 });
-fs.readFile("registration.html", (err, registration) => {
+fs.readFile(path.join(__dirname, "registration.html"), (err, registration) => {
   if (err) throw err;
   registrationContent = registration;
 });
@@ -27,7 +31,7 @@ http
     const url = request.url;
 
     if (url.match(/\.(css|js|ico)$/)) {
-      const filePath = url.slice(1);
+      const filePath = path.join(__dirname, url);
       let contentType = "text/plain";
       if (url.endsWith(".css")) contentType = "text/css";
       else if (url.endsWith(".js")) contentType = "application/javascript";

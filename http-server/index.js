@@ -1,67 +1,54 @@
 import http from "http";
 import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import minimist from "minimist";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const args = minimist(process.argv.slice(2));
+const port = args.port || 3000;
 
 let homeContent = "";
 let projectContent = "";
 let registrationContent = "";
 
-const args = process.argv;
-const port = parseInt(args[2] || "3000");
-
-fs.readFile(path.join(__dirname, "home.html"), (err, home) => {
-  if (err) throw err;
+fs.readFile("home.html", (err, home) => {
+  if (err) {
+    throw err;
+  }
   homeContent = home;
 });
-fs.readFile(path.join(__dirname, "project.html"), (err, project) => {
-  if (err) throw err;
+
+fs.readFile("project.html", (err, project) => {
+  if (err) {
+    throw err;
+  }
   projectContent = project;
 });
-fs.readFile(path.join(__dirname, "registration.html"), (err, registration) => {
-  if (err) throw err;
+
+fs.readFile("registration.html", (err, registration) => {
+  if (err) {
+    throw err;
+  }
   registrationContent = registration;
 });
 
 http
   .createServer((request, response) => {
-    const url = request.url;
-
-    if (url.match(/\.(css|js|ico)$/)) {
-      const filePath = path.join(__dirname, url);
-      let contentType = "text/plain";
-      if (url.endsWith(".css")) contentType = "text/css";
-      else if (url.endsWith(".js")) contentType = "application/javascript";
-      else if (url.endsWith(".ico")) contentType = "image/x-icon";
-
-      fs.readFile(filePath, (err, data) => {
-        if (err) {
-          response.writeHead(404, { "Content-Type": "text/plain" });
-          response.end("404 Not Found");
-        } else {
-          response.writeHead(200, { "Content-Type": contentType });
-          response.end(data);
-        }
-      });
-      return;
-    }
-
-    response.writeHead(200, { "Content-Type": "text/html" });
+    let url = request.url;
+    response.writeHeader(200, { "Content-Type": "text/html" });
     switch (url) {
       case "/project":
-        response.end(projectContent);
+        response.write(projectContent);
+        response.end();
         break;
       case "/registration":
-        response.end(registrationContent);
+        response.write(registrationContent);
+        response.end();
         break;
       default:
-        response.end(homeContent);
+        response.write(homeContent);
+        response.end();
         break;
     }
   })
   .listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server running at http://localhost:${port}`);
   });

@@ -1,7 +1,5 @@
-const { all } = require("express/lib/application");
-
 const todoList = () => {
-  let all = [];
+  all = [];
   const add = (todoItem) => {
     all.push(todoItem);
   };

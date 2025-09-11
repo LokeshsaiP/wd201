@@ -38,7 +38,7 @@ const todoList = () => {
           item.dueDate === new Date().toISOString().split("T")[0]
             ? ""
             : item.dueDate;
-        return `${checkbox} ${item.title} ${dueDate}`.trim();
+        return `${checkbox} ${item.title}${dueDate ? " " + dueDate : ""}`;
       })
       .join("\n");
   };

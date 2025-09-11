@@ -1,4 +1,5 @@
-const todoList = require("../todo-cli/todo");
+/* eslint-disable no-undef */
+const todoList = require("../todo");
 
 const { all, markAsComplete, add } = todoList();
 
